@@ -50,9 +50,9 @@ class FavoritesViewSet(viewsets.ModelViewSet):
     serializer_class = FavoritesSerializer
     queryset = Favorites.objects.all()
 
-    http_method_names = ['GET','PUT','PATCH','DELETE']
+    #http_method_names = ['GET','PUT','PATCH','DELETE']
 
-
+#http://127.0.0.1:8000/api/travel-inspiration/?originLocationCode=PAR&destinationLocationCode=FR
 
 class TravelInspiration(APIView):
 
@@ -64,76 +64,45 @@ class TravelInspiration(APIView):
             dest_code = str(data.get('destinationLocationCode'))
             depart_date = str(data.get('departureDate'))
 
-            print("Data origin====>>#####",str(origin_code))
-            #     all_travel_list = amadeus.reference_data.recommended_locations.get(
-            #         cityCodes=dest_code,
-            #         destinationCountryCodes=origin_code
-            #    )
             all_travel_list = amadeus.reference_data.recommended_locations.get(
                 cityCodes=origin_code,
                 travelerCountryCode=dest_code
-           )
+            )
 
-            print("Les travels ===========#####>", all_travel_list.data ,"LEN ==>",len(all_travel_list.data))
-            data_liste:dict = dict()
-            # # data_liste.update(all_travel_list.data)
-            # for travel in all_travel_list:
-            #     data_liste.update({
-            #      'a' : travel
-            #     }
-            #     )
             data_liste = all_travel_list.data
 
-            for tr in data_liste:
+            for travel in all_travel_list.data:
+                favorite = Favorites(
+                type_travel=travel['type'],
+                    subType=travel['subtype'],
+                    name=travel['name'],
+                    detailedName=travel['detailedName'],
+                    id=travel['id'],
+                    self=travel['self'],
+                    timeZoneOffset=travel['timeZoneOffset'],
+                    iataCode=travel['iataCode'],
+                    geoCode=travel['geoCode'],
+                    address=travel['address'],
+                    analytics=travel['analytics'],
+                )
 
-                print("Object format =======+++>",tr)
-                # travel = tr
-                # favorite = Favorites(
-                #     type_travel = data_liste, 
-                #     subType = data_liste.subType,
-                #     name = data_liste.name,
-                #     detailedName = data_liste.detailedName, 
-                #     id = data_liste.id, self = data_liste.self, 
-                #     timeZoneOffset =data_liste.timeZoneOffset, 
-                #     iataCode = data_liste.iataCode
-                # )
-                # favorite.geoCode = data_liste.geoCode, 
-                # favorite.address = data_liste.address, 
-                # favorite.analytics = data_liste.analytics
+                if request.user:
+                    user = request.user
+                    favorite.users.add(user)
 
-                # if request.user :
-                #     user = request.user
-                #     favorite.users.add(user)
+                favorite.save()
+                print("Favorite created : ",favorite)
+                #return Response({"message": "Favorites created successfully."}, status=status.HTTP_201_CREATED)
 
-                # favorite.save()
-                
-
-                # Favorites.objects.create(
-                #     type_travel =data_liste.type, 
-                #     subType = data_liste.subType,
-                #     name = data_liste.name,
-                #     detailedName = data_liste.detailedName, 
-                #     id = data_liste.id, self = data_liste.self, 
-                #     timeZoneOffset =data_liste.timeZoneOffset, 
-                #     iataCode = data_liste.iataCode,
-                #     geoCode = data_liste.geoCode, 
-                # address = data_liste.address, 
-                # analytics = data_liste.analytics
-                # )
-             
-            # print("Favorite Created===============>",favorite)
 
         except Exception as e:
             print(e)
             all_travel_list = amadeus.reference_data.recommended_locations.get(
-                cityCodes="PAR",
-                travelerCountryCode="FR"
-           )
-            print("Les travels ex===========#####>", all_travel_list.data)
-            return Response(data={"message":"Something was wrong"},status=status.HTTP_400_BAD_REQUEST)
-        
-        return  Response(data=all_travel_list.data,status=status.HTTP_200_OK)
+                cityCodes=origin_code,
+                destinationCountryCodes=dest_code
+            )
 
+        return Response({"message": "Favorites created successfully."}, status=status.HTTP_201_CREATED)
 
 
 class TravelInspirationDetail(APIView):

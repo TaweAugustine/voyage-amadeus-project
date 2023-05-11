@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 class Favorites(models.Model):
     users = models.ManyToManyField(to=User,related_name="favorites")
     created_at = models.DateTimeField(auto_now_add=True)
-    #type_travel = models.CharField(max_length=1000)
+    type_travel = models.CharField(max_length=1000)
     subType = models.CharField(max_length=1000)
     name = models.CharField(max_length=1000)
     deteailedName = models.CharField(max_length=1000)
