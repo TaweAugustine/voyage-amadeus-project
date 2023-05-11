@@ -2,8 +2,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Favorites
-from .serializers import FavoritesSerializer
 
+from .serialisers import FavoritesSerializer
 from rest_framework import status
 
 from django.shortcuts import render,redirect
@@ -18,6 +18,12 @@ from django.db.models import Q
 
 from django.core.paginator import Paginator
 
+from dotenv import load_dotenv
+import os
+
+# Charge les variables d'environnement depuis le fichier .env
+
+load_dotenv()
 
 from django.conf import settings 
 
@@ -34,13 +40,11 @@ from amadeus import Client, ResponseError
 from amadeus import Location
 
 
-AMADEUS_API_KEY = '4n91NAQupMl1kJkA9c7Jm3yDauA3gdVS'
-AMADEUS_API_SECRET = 'wquLrYXvNp1ESTGL'
-
 amadeus = Client(
-    client_id = AMADEUS_API_KEY,
-    client_secret = AMADEUS_API_SECRET
+    client_id = os.getenv('AMADEUS_API_KEY',"4n91NAQupMl1kJkA9c7Jm3yDauA3gdVS"),
+    client_secret = os.getenv('AMADEUS_API_SECRET','wquLrYXvNp1ESTGL')
 )
+
 
 class FavoritesViewSet(viewsets.ModelViewSet):
     serializer_class = FavoritesSerializer
@@ -69,6 +73,7 @@ class TravelInspiration(APIView):
                 cityCodes=origin_code,
                 travelerCountryCode=dest_code
            )
+
             print("Les travels ===========#####>", all_travel_list.data ,"LEN ==>",len(all_travel_list.data))
             data_liste:dict = dict()
             # # data_liste.update(all_travel_list.data)

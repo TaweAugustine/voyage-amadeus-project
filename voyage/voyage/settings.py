@@ -1,17 +1,21 @@
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from dotenv import load_dotenv
+import os
+
+# Charge les variables d'environnement depuis le fichier .env
+
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+SECRET_KEY = os.getenv('AMADEUS_API_SECRET','django-insecure-0%7%03z4_a)^y1kg_(f)5ntz!^&j2p#@by683zvh&u7yg69==6')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0%7%03z4_a)^y1kg_(f)5ntz!^&j2p#@by683zvh&u7yg69==6'
+print("CLEEEE",SECRET_KEY)
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
