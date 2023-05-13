@@ -15,3 +15,20 @@
 4- " python manage.py runserver " pour compiller le projet
 
 5- Pour tester l'API il faut utiliser "POSTMAN'
+
+Dans Postman on peut saisir ces différent endpoints pour tester le fonctionnement de l'API.
+
+6- l'endpoint "http://127.0.0.1:8000/api/travel-inspiration/" permet d'avoir une liste de destination
+
+Exemple: http://127.0.0.1:8000/api/travel-inspiration/?originLocationCode=PAR&destinationLocationCode=FR 
+
+
+7- l'endpoint "http://127.0.0.1:8000/api/travel-inspiration/<str:pk>" permet de donner les détails spécifiques consernant une donnée ayant une clé spécifique. Donc il faut chaque fois préciser une clée qui est un string.
+
+Exemple: http://127.0.0.1:8000/api/travel-inspiration/<"AMAN">
+
+8- l'endpoint "http://127.0.0.1:8000/api/travel-inspiration/search/<str:keyword>/  permet de lister une liste de donnée comportant un caractère ou un groupe de caractère donné
+
+exemple : http://127.0.0.1:8000/api/travel-inspiration/search/TE/
+
+
