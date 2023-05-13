@@ -25,7 +25,7 @@ Exemple: http://127.0.0.1:8000/api/travel-inspiration/?originLocationCode=PAR&de
 
 7- l'endpoint "http://127.0.0.1:8000/api/travel-inspiration/<str:pk>" permet de donner les détails spécifiques consernant une donnée ayant une clé spécifique. Donc il faut chaque fois préciser une clée qui est un string.
 
-Exemple: http://127.0.0.1:8000/api/travel-inspiration/<"AMAN">
+Exemple: http://127.0.0.1:8000/api/travel-inspiration/"AMAN"
 
 8- l'endpoint "http://127.0.0.1:8000/api/travel-inspiration/search/<str:keyword>/  permet de lister une liste de donnée comportant un caractère ou un groupe de caractère donné
 
