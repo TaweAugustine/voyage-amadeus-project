@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4401d02415f8dd6fc69fc38f35943c84b561f3f7
 # API permettant de fourninir des voyages inspirants aux utilisateurs.
 
 1- git clone :    
